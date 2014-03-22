@@ -77,6 +77,7 @@
 
 	<gap:platform name="android" />
 	<gap:platform name="ios" />
+    <gap:platform name="winphone" />
 
     <!--
         Define access to external domains.
