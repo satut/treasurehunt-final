@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.0.min.css" type="text/css">
+        <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>       
+        <script type="text/javascript">
+            var jsonURL = "http://satutyrvainen.com/treasurehunt/campaigns.json";
+
+            $(document).on("mobileinit", function(){
+                $.mobile.defaultPageTransition = 'slide';
+            });
+        </script> 
+        <script type="text/javascript" src="js/jquery.mobile-1.4.0.min.js"></script>
+        <link rel="stylesheet" href="css/treasurehunt.min.css" type="text/css">
+        <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" type="text/css">
+        <link rel="stylesheet" href="css/index.css" type="text/css">
+
+        <title>Aarrejahti</title>
+    </head>
+    <body>
+
+<div id="wrapper">
+
+    <!-- ****** ETUSIVU ****** -->
+    <div data-role="page" id="home">
+        <div data-role="header" data-position="fixed">
+            <h1>Aarrejahti</h1>
+        </div>
+        <div data-role="content" class="content">
+            <div class="logo-holder centerme">
+                <img src="img/logo.png">
+            </div>
+            <h2>Tervetuloa Aarrejahtiin!</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce molestie blandit tellus. Vivamus cursus, lorem ut pellentesque bibendum, est elit pharetra tellus, lacinia tempus neque arcu eget urna. Aenean sed quam eget ipsum hendrerit molestie. Aliquam tempor diam at elementum fermentum.</p>
+
+            <ul data-role="listview" data-inset="true">
+                <li><a href="#campaigns">Kampanjat</a></li>
+                <li><a href="#termsofuse">Käyttöehdot</a></li>
+                <li><a href="#info">Tietoja</a></li>
+            </ul>
+            
+        </div>
+    </div>
+
+
+    <!-- **** KAMPANJAT **** -->
+    <div data-role="page" id="campaigns">
+        <div data-role="header" data-position="fixed">
+            <h1><a href="#home">Aarrejahti</a></h1>
+            <div id="backbutton">
+                <a href="#" data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" data-theme="a" data-inline="true">Back</a>
+            </div>
+        </div>
+        <div data-role="content" class="content">
+
+            <h2>Käynnissä olevat kampanjat</h2>
+            <p>
+                Valitse aarrejahti, johon haluat osallistua
+            </p>
+
+            <!-- JAVASCRIPT -->
+            <ul data-role="listview" data-inset="true" id="campaignList">
+            <script type="text/javascript">
+                // Parsing JSON data with jQuery
+                var output = "";
+                $.getJSON(jsonURL,function(json){
+                    $.each(json.campaigns,function(i,campaigns){
+                        output += "<li><a href='#" + json.campaigns[i].campaignID + "'>"
+                        + json.campaigns[i].campaignName + "</a></li>";
+                    });
+                    var outputTarget = document.getElementById("campaignList");
+                    outputTarget.innerHTML=output;
+                });
+            </script>
+            </ul>
+
+            
+        </div>
+    </div>
+
+
+
+    <!-- ** LUODAAN KAMPANJA(T) ** -->
+    <script type="text/javascript">
+        // Parsing JSON data with jQuery
+        var campaignViewOutput = "";
+        $.getJSON(jsonURL,function(json){
+            $.each(json.campaigns,function(i,campaigns){
+                campaignViewOutput += "<div data-role=" + "page" + " id=" + json.campaigns[i].campaignID + ">"
+                + "<div data-role='header' data-position='fixed'>";
+                campaignViewOutput += "<h1><a href='#home'>Aarrejahti</a></h1>";
+                campaignViewOutput += "<div id='backbutton'><a href='#'' data-role='button' data-rel='back' data-icon='back' data-iconpos='notext' data-theme='a' data-inline='true'>Back</a></div>";
+                campaignViewOutput += "</div>";
+
+                campaignViewOutput += "<div data-role='content' class='content'>";
+                campaignViewOutput += "<h2>" + json.campaigns[i].campaignName + "</h2>";
+                campaignViewOutput += "<p>" + json.campaigns[i].campaignDescription + "</p>";
+
+                campaignViewOutput += "<h2>Aarrejahdit</h2>";
+                campaignViewOutput += "<ul data-role='listview' data-inset='true'>";
+                $.each(campaigns.treasurehunts, function(j, treasurehunts) {
+                    if ( parseInt(treasurehunts.treasurehuntStatus) == 0) {
+                        campaignViewOutput += "<li><a href='#" + treasurehunts.treasurehuntID + "'>"
+                                            + treasurehunts.treasurehuntName + "</a></li>";
+                    }
+                });
+                campaignViewOutput += "</ul></div></div>";
+                });
+            
+            var newCampaign = $(campaignViewOutput);
+            newCampaign.appendTo($.mobile.pageContainer);
+
+            /*
+            var campaignsHolder = document.getElementById("wrapper");
+            campaignsHolder.innerHTML += campaignViewOutput;
+            */
+        });
+    </script>
+
+
+<!-- ** YKSITTÄINEN KAMPANJA (alkuperäinen koodi) ** -->
+<!--
+    <div data-role="page" id="campaign01">
+        <div data-role="header" data-position="fixed">
+            <h1>Aarrejahti</h1>
+        </div>
+        <div data-role="content" class="content">
+
+            <h2>Kampanjan nimi</h2>
+            <p>
+                Lyhyt kuvaus itse kampanjasta, palkinnoista, osallistumisajasta jne... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce molestie blandit tellus. Vivamus cursus, lorem ut pellentesque bibendum, est elit pharetra tellus, lacinia tempus neque arcu eget urna. Aenean sed quam eget ipsum hendrerit molestie.
+            </p>
+
+            <h2>Aarrejahdit</h2>
+
+            <ul data-role="listview" data-inset="true">
+                <li data-role="list-divider" data-theme="a">Käynnissä</li>
+                <li><a href="#campaign01treasure01">Käynnissä oleva aarrejahti 07.01.2014</a></li>
+                <li data-role="list-divider" data-theme="a">Menneet</li>
+                <li><a href="#">Mennyt aarrejahti 01.01.2014</a></li>
+            </ul>
+            
+        </div>
+        <div data-role="footer" data-position="fixed">
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a href="#home" data-role="button" data-icon="home" data-iconpos="notext" data-theme="a" data-inline="true">Home</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="#" data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" data-theme="a" data-inline="true">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+
+
+
+    <!-- ** LUODAAN KAMPANJAN AARREJAHTI ** -->
+
+    <script type="text/javascript">
+    // Parsing JSON data with jQuery
+    var treasurehuntViewOutput = "";
+
+    $.getJSON(jsonURL,function(json){
+        $.each(json.campaigns,function(i,campaigns){
+            $.each(campaigns.treasurehunts, function(j, treasurehunts) {
+                if ( parseInt(treasurehunts.treasurehuntStatus) == 0) {
+                    treasurehuntViewOutput += "<div data-role=" + "page" + " id=" + treasurehunts.treasurehuntID + " class='treasurehunt " + treasurehunts.treasurehuntID + "'>"
+                    + "<div data-role='header' data-position='fixed'>";
+                    treasurehuntViewOutput += "<h1><a href='#home'>Aarrejahti</a></h1>";
+                    treasurehuntViewOutput += "<div id='backbutton'><a href='#'' data-role='button' data-rel='back' data-icon='back' data-iconpos='notext' data-theme='a' data-inline='true'>Back</a></div>";
+                    treasurehuntViewOutput += "</div>";
+
+                    treasurehuntViewOutput += "<div data-role='content' class='content'>";
+                    treasurehuntViewOutput += "<h2 id='"+treasurehunts.treasurehuntID+"geolocation' class='geolocation'>Etsitään sijaintia...</h2>";
+
+                    treasurehuntViewOutput += "<div id='progressbar-container'>";
+                    treasurehuntViewOutput += "<div class='progressbar'><div id='"+treasurehunts.treasurehuntID+"progress' class='progress ui-shadow' style='width:0%;'></div></div>";
+                    treasurehuntViewOutput += "</div>";
+
+                    treasurehuntViewOutput += "<div class='hint-image centerme'>";
+                    treasurehuntViewOutput += "<img src='" + treasurehunts.treasurehuntStep1 + "'></div>";
+
+                    treasurehuntViewOutput += "<p id='"+treasurehunts.treasurehuntID+"checkedLocation' class='checkedLocation'></p>";
+                    treasurehuntViewOutput += "<a href='#"+treasurehunts.treasurehuntID+"step2' data-role='button' id='tonextstep' class='tonextstep'>Seuraava vaihe!</a>";
+                    treasurehuntViewOutput += "<button id='relocate' class='relocate'>Tarkista sijainti</button></div>";
+
+                    // Hidden inputs for treasurehunt spesific parameters such as longitude and latitude of the treasure and current hunts id
+                    treasurehuntViewOutput += "<input type='hidden' name='huntID' id='huntID' value='" + treasurehunts.treasurehuntID + "'>";
+                    treasurehuntViewOutput += "<input type='hidden' name='huntCode' id='"+ treasurehunts.treasurehuntID + "code' value='" + treasurehunts.treasurehuntCode + "'>";
+                    treasurehuntViewOutput += "<input type='hidden' name='latitude' id='"+ treasurehunts.treasurehuntID + "lat' value='" + treasurehunts.treasurehuntLat + "'>";
+                    treasurehuntViewOutput += "<input type='hidden' name='longitude' id='"+ treasurehunts.treasurehuntID + "lon' value='" + treasurehunts.treasurehuntLon + "'>";
+
+                    treasurehuntViewOutput += "</div></div>";
+                }
+
+            });
+
+        });
+
+        var newTreasurehunt = $(treasurehuntViewOutput);
+        newTreasurehunt.appendTo($.mobile.pageContainer);
+
+    });
+    </script>
+
+
+    <!-- ** LUODAAN KAMPANJAN AARREJAHDIN 2. VAIHE ** -->
+
+    <script type="text/javascript">
+    // Parsing JSON data with jQuery
+    var treasurehuntStep2ViewOutput = "";
+
+    $.getJSON(jsonURL,function(json){
+        $.each(json.campaigns,function(i,campaigns){
+            $.each(campaigns.treasurehunts, function(j, treasurehunts) {
+                if ( parseInt(treasurehunts.treasurehuntStatus) == 0) {
+                    treasurehuntStep2ViewOutput += "<div data-role=" + "page" + " id='" + treasurehunts.treasurehuntID + "step2' class='treasurehunt " + treasurehunts.treasurehuntID + "step2'>"
+                    + "<div data-role='header' data-position='fixed'>";
+                    treasurehuntStep2ViewOutput += "<h1><a href='#home'>Aarrejahti</a></h1>";
+                    treasurehuntStep2ViewOutput += "<div id='backbutton'><a href='#'' data-role='button' data-rel='back' data-icon='back' data-iconpos='notext' data-theme='a' data-inline='true'>Back</a></div>";
+                    treasurehuntStep2ViewOutput += "</div>";
+
+                    treasurehuntStep2ViewOutput += "<div data-role='content' class='content'>";
+                    treasurehuntStep2ViewOutput += "<h2 id='"+treasurehunts.treasurehuntID+"step2geolocation' class='geolocation'>Etsitään sijaintia...</h2>";
+
+                    treasurehuntStep2ViewOutput += "<div id='progressbar-container'>";
+                    treasurehuntStep2ViewOutput += "<div class='progressbar'><div id='"+treasurehunts.treasurehuntID+"step2progress' class='progress ui-shadow' style='width:50%;'></div></div>";
+                    treasurehuntStep2ViewOutput += "</div>";
+
+                    treasurehuntStep2ViewOutput += "<div class='hint-image centerme'>";
+                    treasurehuntStep2ViewOutput += "<img src='" + treasurehunts.treasurehuntStep2 + "'></div>";
+
+                    treasurehuntStep2ViewOutput += "<p id='"+treasurehunts.treasurehuntID+"step2checkedLocation' class='checkedLocation'></p>";
+                    treasurehuntStep2ViewOutput += "<a href='#"+treasurehunts.treasurehuntID+"step3' data-role='button' id='tolaststep' class='tolaststep'>Seuraava vaihe!</a>";
+                    treasurehuntStep2ViewOutput += "<button id='relocate' class='relocate'>Tarkista sijainti</button></div>";
+
+                    // Hidden inputs for treasurehunt spesific parameters such as longitude and latitude
+                    treasurehuntStep2ViewOutput += "<input type='hidden' name='huntID' id='huntID' value='" + treasurehunts.treasurehuntID + "step2'>";
+                    treasurehuntStep2ViewOutput += "<input type='hidden' name='huntCode' id='"+ treasurehunts.treasurehuntID + "step2code' value='" + treasurehunts.treasurehuntCode + "'>";
+                    treasurehuntStep2ViewOutput += "<input type='hidden' name='latitude' id='"+ treasurehunts.treasurehuntID + "step2lat' value='" + treasurehunts.treasurehuntLat + "'>";
+                    treasurehuntStep2ViewOutput += "<input type='hidden' name='longitude' id='"+ treasurehunts.treasurehuntID + "step2lon' value='" + treasurehunts.treasurehuntLon + "'>";
+
+                    treasurehuntStep2ViewOutput += "</div></div>";
+                }
+
+            });
+
+        });
+
+        var newTreasurehuntStep2 = $(treasurehuntStep2ViewOutput);
+        newTreasurehuntStep2.appendTo($.mobile.pageContainer);
+
+    });
+    </script>
+
+
+
+
+    <!-- ** LUODAAN KAMPANJAN AARREJAHDIN 3. VAIHE ** -->
+
+    <script type="text/javascript">
+    // Parsing JSON data with jQuery
+    var treasurehuntStep3ViewOutput = "";
+
+    $.getJSON(jsonURL,function(json){
+        $.each(json.campaigns,function(i,campaigns){
+            $.each(campaigns.treasurehunts, function(j, treasurehunts) {
+                if ( parseInt(treasurehunts.treasurehuntStatus) == 0) {
+                    treasurehuntStep3ViewOutput += "<div data-role=" + "page" + " id='" + treasurehunts.treasurehuntID + "step3' class='treasurehunt " + treasurehunts.treasurehuntID + "step3 step3'>"
+                    + "<div data-role='header' data-position='fixed'>";
+                    treasurehuntStep3ViewOutput += "<h1><a href='#home'>Aarrejahti</a></h1>";
+                    treasurehuntStep3ViewOutput += "<div id='backbutton'><a href='#'' data-role='button' data-rel='back' data-icon='back' data-iconpos='notext' data-theme='a' data-inline='true'>Back</a></div>";
+                    treasurehuntStep3ViewOutput += "</div>";
+
+                    treasurehuntStep3ViewOutput += "<div data-role='content' class='content'>";
+                    treasurehuntStep3ViewOutput += "<h2>Olet aivan aarteen lähellä!</h2>";
+                    treasurehuntStep3ViewOutput += "<div id='progressbar-container'>";
+                    treasurehuntStep3ViewOutput += "<div class='progressbar'><div id='"+treasurehunts.treasurehuntID+"step3progress' class='progress ui-shadow' style='width:75%;'></div></div>";
+                    treasurehuntStep3ViewOutput += "</div>";
+                    treasurehuntStep3ViewOutput += "<p>Kun löydät aarteen syötä aarteen koodi tähän:</p>";
+
+                    treasurehuntStep3ViewOutput += "<form id='" + treasurehunts.treasurehuntID + "step3codeform' data-ajax='false' method='get' action=''>";
+                    //treasurehuntStep3ViewOutput += "<label for='code'>Koodi:</label>";
+                    treasurehuntStep3ViewOutput += "<input type='text' name='code' id='code'>";
+                    treasurehuntStep3ViewOutput += "<input type='hidden' name='huntCode' id='"+ treasurehunts.treasurehuntID + "step3code' value='" + treasurehunts.treasurehuntCode + "'>";
+                    treasurehuntStep3ViewOutput += "<input type='submit' id='" + treasurehunts.treasurehuntID + "step3codesubmit' data-inline='true' data-role='button' data-theme='a' value='Tarkista koodi'>";
+                    treasurehuntStep3ViewOutput += "</form>";
+
+                    treasurehuntStep3ViewOutput += "<div id='" + treasurehunts.treasurehuntID + "step3hiderRight' class='hide-me'>";
+                    treasurehuntStep3ViewOutput += "<h2>Koodi oikein!</h2>";
+                    treasurehuntStep3ViewOutput += "<p>Kerro vielä nimesi ja osoitteesi, jotta voimme lähettää palkinnon sinulle. Saat sähköpostiisi vahvistusviestin, kun palkinto on lähetetty!</p>";
+                    treasurehuntStep3ViewOutput += "<form id='" + treasurehunts.treasurehuntID + "step3form'>";
+                    treasurehuntStep3ViewOutput += "<div data-role='fieldcontain'>";
+                    treasurehuntStep3ViewOutput += "<label for='name'>Nimi:</label>";
+                    treasurehuntStep3ViewOutput += "<input type='text' name='name' id='name'>";
+                    treasurehuntStep3ViewOutput += "<label for='address'>Osoite:</label>";
+                    treasurehuntStep3ViewOutput += "<input type='text' name='address' id='address'>";
+                    treasurehuntStep3ViewOutput += "<label for='zipcode'>Postinumero:</label>";
+                    treasurehuntStep3ViewOutput += "<input type='text' name='zipcode' id='zipcode'>";
+                    treasurehuntStep3ViewOutput += "<label for='city'>Toimipaikka:</label>";
+                    treasurehuntStep3ViewOutput += "<input type='text' name='city' id='city'>";
+                    treasurehuntStep3ViewOutput += "<label for='email'>Sähköposti:</label>";
+                    treasurehuntStep3ViewOutput += "<input type='email' name='email' id='email'>";
+                    treasurehuntStep3ViewOutput += "<input type='hidden' name='huntname' id='huntname' value='" + treasurehunts.treasurehuntName + "'>";
+                    treasurehuntStep3ViewOutput += "<input type='hidden' name='formhuntid' id='formhuntid' value='" + treasurehunts.treasurehuntID + "'>";
+                    treasurehuntStep3ViewOutput += "</div>";
+                    treasurehuntStep3ViewOutput += "<input type='submit' id='" + treasurehunts.treasurehuntID + "step3submit' data-inline='true' data-role='button' data-theme='a' value='Lähetä'>";
+                    treasurehuntStep3ViewOutput += "</form>";
+                    treasurehuntStep3ViewOutput += "<div id='" + treasurehunts.treasurehuntID + "step3formsendmessage' class='formsendmessage'>";
+                    treasurehuntStep3ViewOutput += "</div>";
+                    treasurehuntStep3ViewOutput += "</div>";
+                    treasurehuntStep3ViewOutput += "<div id='" + treasurehunts.treasurehuntID + "step3hiderWrong' class='hide-me'>";
+                    treasurehuntStep3ViewOutput += "<h2>Koodi väärin</h2>";
+                    treasurehuntStep3ViewOutput += "<p>Tarkista koodi!</p>";
+                    treasurehuntStep3ViewOutput += "</div>";
+                    treasurehuntStep3ViewOutput += "</div>";
+
+                    // Hidden inputs for treasurehunt spesific parameters such as longitude and latitude
+                    treasurehuntStep3ViewOutput += "<input type='hidden' name='huntID' id='huntID' value='" + treasurehunts.treasurehuntID + "step3'>";
+                    //treasurehuntStep3ViewOutput += "<input type='hidden' name='huntCode' id='"+ treasurehunts.treasurehuntID + "step3code' value='" + treasurehunts.treasurehuntCode + "'>";
+                    treasurehuntStep3ViewOutput += "<input type='hidden' name='latitude' id='"+ treasurehunts.treasurehuntID + "step3lat' value='" + treasurehunts.treasurehuntLat + "'>";
+                    treasurehuntStep3ViewOutput += "<input type='hidden' name='longitude' id='"+ treasurehunts.treasurehuntID + "step3lon' value='" + treasurehunts.treasurehuntLon + "'>";
+
+                    treasurehuntStep3ViewOutput += "</div></div>";
+                }
+
+            });
+
+        });
+
+        var newTreasurehuntStep3 = $(treasurehuntStep3ViewOutput);
+        newTreasurehuntStep3.appendTo($.mobile.pageContainer);
+
+    });
+    </script>
+
+
+    <!-- ** YKSITTÄISEN KAMPANJAN KÄYNNISSÄ OLEVA AARREJAHTI (alkuperäinen koodi) ** -->
+    <!--
+    <div data-role="page" id="campaign01treasurehunt01">
+        <div data-role="header" data-position="fixed">
+            <h1>Aarrejahti</h1>
+        </div>
+        <div data-role="content" class="content">
+
+            <p id="geolocation">Etsitään sijaintia...</p>
+
+            <div class="hint-image centerme">
+                <img src="images/vihjekuva.jpg">
+            </div>
+
+            <div class="ui-grid-a">
+                <div class="ui-block-a"><span class="highlight">Latitude:</span></div>
+                <div class="ui-block-b"><span id="latval">?</span></div>
+            </div>
+
+            <div class="ui-grid-a">
+                <div class="ui-block-a"><span class="highlight">Longitude:</span></div>
+                <div class="ui-block-b"><span id="lonval">?</span></div>
+            </div>
+
+            <br>
+            <br>
+            <p id="checkedLocation"> </p>
+            <br>
+            <br>
+            <button id="relocate">Tarkista sijainti</button>
+            
+        </div>
+        <div data-role="footer" data-position="fixed">
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a href="#home" data-role="button" data-icon="home" data-iconpos="notext" data-theme="a" data-inline="true">Home</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="#" data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" data-theme="a" data-inline="true">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+
+
+    <!-- **** KÄYTTÖEHDOT **** -->
+    <div data-role="page" id="termsofuse">
+        <div data-role="header" data-position="fixed">
+            <h1><a href="#home">Aarrejahti</a></h1>
+            <div id="backbutton">
+                <a href="#" data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" data-theme="a" data-inline="true">Back</a>
+            </div>
+        </div>
+        <div data-role="content" class="content">
+
+            <h2>Käyttöehdot</h2>
+
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse hendrerit, metus nec facilisis venenatis, nunc mauris scelerisque justo, in sodales massa nibh vel mauris. Nam sit amet libero at nulla rutrum porta. Etiam semper non sapien eu sollicitudin. Suspendisse a vehicula neque. In purus purus, accumsan ac magna non, mattis dictum est.
+            </p>
+            <p>
+                Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tristique massa felis, at congue quam vehicula sit amet. Phasellus molestie, felis id ultricies auctor, risus est scelerisque arcu, sit amet ornare odio felis eget tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In fermentum, massa non auctor lacinia, felis elit posuere libero, vitae varius erat tellus tempus mi. Morbi at lectus at neque convallis tristique.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse hendrerit, metus nec facilisis venenatis, nunc mauris scelerisque justo, in sodales massa nibh vel mauris. Nam sit amet libero at nulla rutrum porta. Etiam semper non sapien eu sollicitudin. Suspendisse a vehicula neque. In purus purus, accumsan ac magna non, mattis dictum est.
+            </p>
+            <p>
+                Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tristique massa felis, at congue quam vehicula sit amet. Phasellus molestie, felis id ultricies auctor, risus est scelerisque arcu, sit amet ornare odio felis eget tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In fermentum, massa non auctor lacinia, felis elit posuere libero, vitae varius erat tellus tempus mi. Morbi at lectus at neque convallis tristique.
+            </p>
+            
+        </div>
+    </div>
+
+
+
+    <!-- **** TIETOJA **** -->
+    <div data-role="page" id="info">
+        <div data-role="header" data-position="fixed">
+            <h1><a href="#home">Aarrejahti</a></h1>
+            <div id="backbutton">
+                <a href="#" data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" data-theme="a" data-inline="true">Back</a>
+            </div>
+        </div>
+        <div data-role="content" class="content">
+
+            <h2>Tietoja</h2>    
+
+            <p>
+                Tänne tulisi jotain pientä informaatiota itse sovelluksesta. Esim. tekijä(t) jne... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse hendrerit, metus nec facilisis venenatis, nunc mauris scelerisque justo, in sodales massa nibh vel mauris. Nam sit amet libero at nulla rutrum porta. Etiam semper non sapien eu sollicitudin.
+            </p>
+            <p>
+                Suspendisse a vehicula neque. In purus purus, accumsan ac magna non, mattis dictum est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tristique massa felis, at congue quam vehicula sit amet.
+            </p>
+            
+        </div>
+
+    </div>
+
+</div>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script>
+        $( document ).delegate(".treasurehunt.step3", "pageinit", function() {
+
+            // * CODE VALIDATION FORM for checking if the user types in the right code *
+            var currentHuntIDf = $.mobile.activePage.attr("id");
+            // Because active page returns step2-view we have to change step2 from the id to step3
+            currentHuntIDf = currentHuntIDf.replace('step2', 'step3');
+            var codeform = document.getElementById(currentHuntIDf+'codeform');
+            var hiddenformRight = $(document.getElementById(currentHuntIDf+'hiderRight'));
+            var hiddenformWrong = $(document.getElementById(currentHuntIDf+'hiderWrong'));
+            var treasurehuntFinalProgress = $('#' + currentHuntIDf + 'progress');
+            navigator.geolocation.clearWatch(watchID);
+
+            console.log("currentHuntIDf: " + currentHuntIDf + " codeform: " + codeform);
+
+            $(codeform).submit(function(e) { 
+                e.preventDefault();
+
+                var usercode = ($(this).children('div').children('#code').val()).toLowerCase();
+                var realcode = ($(document.getElementById(currentHuntIDf+'code')).val()).toLowerCase();
+
+                console.log("Usercode: " + usercode + " treasurecode: " + realcode);
+
+                if ( usercode == realcode ) {
+                    hiddenformWrong.css('display', 'none');
+                    hiddenformRight.css('display', 'block');
+                    treasurehuntFinalProgress.css('width', '95%');
+
+                }
+                else {
+                    hiddenformWrong.css('display', 'block');
+                    hiddenformRight.css('display', 'none');
+                }
+
+            });
+
+
+            // * CONTACT INFO SENDING FORM for sending in the contact info of the winner *
+            var form = document.getElementById(currentHuntIDf+'form');
+            var sendmessage = document.getElementById(currentHuntIDf+'formsendmessage');
+
+                $(form).submit(function(e) { 
+                    sendmessage.innerHTML = "Lähetetään tietoja, odota hetki...";
+                    e.preventDefault();
+
+                    var formData = $(form).serialize();
+
+                        $.ajax({
+                            type: "POST",
+                            url: "http://satutyrvainen.com/treasurehunt/form.php",
+                            cache: false,
+                            data: formData,
+                            success: function() {
+                                        onSubmitSuccess();
+                                     },
+                            error: onSubmitError
+                        });
+          
+                    return false;
+
+                });
+
+                function onSubmitSuccess(data) {
+                    sendmessage.innerHTML = "Tiedot lähetetty onnistuneesti! Saat ilmoittamaasi sähköpostiosoitteeseen vahvistusviestin, kun palkintosi on lähetetty!";
+                    treasurehuntFinalProgress.css('width', '100%');
+
+                    var sendID = currentHuntIDf.replace('step3', '');
+
+                    $.ajax({
+                        type: "POST",
+                        url: "http://satutyrvainen.com/treasurehunt/updatejson.php",
+                        cache: false,
+                        data: {formhuntid: sendID},
+                        success: '',
+                        error: ''
+                    });
+                    console.log("currentHuntIDf " + currentHuntIDf);
+                    return false;
+
+                }
+
+                function onSubmitError(data) {
+                    sendmessage.innerHTML = "Tietoja lähetettäessä tapahtui virhe. Kokeile lähetystä uudelleen.";
+                }
+
+        });
+
+        </script>
+    </body>
+</html>
+
+
+
+
+
+

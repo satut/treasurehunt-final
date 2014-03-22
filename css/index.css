@@ -1,0 +1,136 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+body,.ui-page {
+    text-shadow: none;
+    font-size: .95em;
+}
+.highlight {
+    color: #A80169;
+    font-weight: bold;
+    text-shadow: none;
+}
+.ui-header .ui-title, .ui-footer .ui-title {
+    text-align: center;
+    margin: .6em auto .8em;
+    padding: 0;
+    text-overflow: ellipsis;
+    overflow: auto;
+    white-space: nowrap;
+}
+.ui-footer {
+    text-align: center;
+}
+.geolocation, .checkedLocation {
+    text-align: center;
+    width: 100%;
+}
+.centerme {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 100%;
+}
+h1, h1.ui-title, .ui-header .ui-title, .ui-footer .ui-title {
+    font-size: 18px;
+}
+h1 a, h1 a:link, h1 a:visited {
+    color: #fff;
+    text-decoration: none;
+}
+h1 a:hover, h1 a:focus,
+.ui-page-theme-a h1 a:hover, html .ui-bar-a h1 a:hover, html .ui-body-a h1 a:hover, html body .ui-group-theme-a h1 a:hover {
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0px 0px 3px #fff;
+}
+h2 {
+    color: #FF25A5;
+    text-align: center;
+    font-size: 1.5em;
+}
+img {
+    border: 0;
+    margin: 0;
+    max-width: 100%;
+    height: auto;
+    border: 0;
+}
+#tonextstep, #tolaststep {
+    display: none;
+}
+.ui-input-text {
+    margin-bottom: 10px !important;
+}
+.ui-field-contain {
+    border: 0 !important;
+}
+.hide-me {
+    display: none;
+}
+.formsendmessage {
+    padding: 30px 0;
+}
+label, .ui-mobile label, div.ui-controlgroup-label {
+    text-transform: none;
+    font-size: .95em;
+}
+#backbutton {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.progressbar {
+    width: 100%;
+    background: rgb(255, 255, 255);
+    height: 10px;
+    margin: 0px 0px 5px;
+    padding: 0px;
+    line-height: 1;
+    border-radius: 5px;
+    border: 1px solid #bfbfbf;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    display: inline-block;
+}
+
+.progress {
+    margin: 0px 0px 5px;
+    padding: 0px;
+    line-height: 1;
+    border-radius: 5px;
+    border: 0;
+    background: #FF25A5;
+    height: 10px;
+    border-radius: 5px;
+}
+
+.tonextstep, .tolaststep {
+    -webkit-box-shadow: 0 0 12px #FF25A5 !important;
+    -moz-box-shadow: 0 0 12px #FF25A5 !important;
+    box-shadow: 0 0 12px #FF25A5 !important;
+    background-color: #FF25A5 !important;
+    border-color: #FF25A5 !important;
+    color: #ffffff !important;
+    text-shadow: 1px 1px 1px #ad0066 !important;
+}
