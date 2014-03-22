@@ -45,7 +45,7 @@
 
     <!-- ****** ETUSIVU ****** -->
     <div data-role="page" id="home">
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <h1>Aarrejahti</h1>
         </div>
         <div data-role="content" class="content">
@@ -67,7 +67,7 @@
 
     <!-- **** KAMPANJAT **** -->
     <div data-role="page" id="campaigns">
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <h1><a href="#home">Aarrejahti</a></h1>
             <div id="backbutton">
                 <a href="#" data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" data-theme="a" data-inline="true">Back</a>
@@ -75,9 +75,9 @@
         </div>
         <div data-role="content" class="content">
 
-            <h2>Käynnissä olevat kampanjat</h2>
+            <h2>Kampanjat</h2>
             <p>
-                Valitse aarrejahti, johon haluat osallistua
+                Valitse kampanja, jonka aarrejahtiin haluat osallistua.
             </p>
 
             <!-- JAVASCRIPT -->
@@ -109,7 +109,7 @@
         $.getJSON(jsonURL,function(json){
             $.each(json.campaigns,function(i,campaigns){
                 campaignViewOutput += "<div data-role=" + "page" + " id=" + json.campaigns[i].campaignID + ">"
-                + "<div data-role='header' data-position='fixed'>";
+                + "<div data-role='header'>";
                 campaignViewOutput += "<h1><a href='#home'>Aarrejahti</a></h1>";
                 campaignViewOutput += "<div id='backbutton'><a href='#'' data-role='button' data-rel='back' data-icon='back' data-iconpos='notext' data-theme='a' data-inline='true'>Back</a></div>";
                 campaignViewOutput += "</div>";
@@ -120,12 +120,25 @@
 
                 campaignViewOutput += "<h2>Aarrejahdit</h2>";
                 campaignViewOutput += "<ul data-role='listview' data-inset='true'>";
+                campaignViewOutput += "<li data-role='list-divider'>Käynnissä</li>";
                 $.each(campaigns.treasurehunts, function(j, treasurehunts) {
                     if ( parseInt(treasurehunts.treasurehuntStatus) == 0) {
                         campaignViewOutput += "<li><a href='#" + treasurehunts.treasurehuntID + "'>"
                                             + treasurehunts.treasurehuntName + "</a></li>";
                     }
                 });
+                campaignViewOutput += "<li data-role='list-divider'>Menneet</li>";
+                var closedTreasurehunts = false;
+                $.each(campaigns.treasurehunts, function(j, treasurehunts) {
+                    if ( parseInt(treasurehunts.treasurehuntStatus) == 1) {
+                        campaignViewOutput += "<li><a href='#" + treasurehunts.treasurehuntID + "'>"
+                                            + treasurehunts.treasurehuntName + "</a></li>";
+                        closedTreasurehunts = true;
+                    }
+                });
+                if (closedTreasurehunts == false) {
+                    campaignViewOutput += "<li>Ei menneitä aarrejahteja.</li>";
+                }
                 campaignViewOutput += "</ul></div></div>";
                 });
             
@@ -143,7 +156,7 @@
 <!-- ** YKSITTÄINEN KAMPANJA (alkuperäinen koodi) ** -->
 <!--
     <div data-role="page" id="campaign01">
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <h1>Aarrejahti</h1>
         </div>
         <div data-role="content" class="content">
@@ -163,7 +176,7 @@
             </ul>
             
         </div>
-        <div data-role="footer" data-position="fixed">
+        <div data-role="footer">
             <div class="ui-grid-a">
                 <div class="ui-block-a">
                     <a href="#home" data-role="button" data-icon="home" data-iconpos="notext" data-theme="a" data-inline="true">Home</a>
@@ -189,7 +202,7 @@
             $.each(campaigns.treasurehunts, function(j, treasurehunts) {
                 if ( parseInt(treasurehunts.treasurehuntStatus) == 0) {
                     treasurehuntViewOutput += "<div data-role=" + "page" + " id=" + treasurehunts.treasurehuntID + " class='treasurehunt " + treasurehunts.treasurehuntID + "'>"
-                    + "<div data-role='header' data-position='fixed'>";
+                    + "<div data-role='header'>";
                     treasurehuntViewOutput += "<h1><a href='#home'>Aarrejahti</a></h1>";
                     treasurehuntViewOutput += "<div id='backbutton'><a href='#'' data-role='button' data-rel='back' data-icon='back' data-iconpos='notext' data-theme='a' data-inline='true'>Back</a></div>";
                     treasurehuntViewOutput += "</div>";
@@ -239,7 +252,7 @@
             $.each(campaigns.treasurehunts, function(j, treasurehunts) {
                 if ( parseInt(treasurehunts.treasurehuntStatus) == 0) {
                     treasurehuntStep2ViewOutput += "<div data-role=" + "page" + " id='" + treasurehunts.treasurehuntID + "step2' class='treasurehunt " + treasurehunts.treasurehuntID + "step2'>"
-                    + "<div data-role='header' data-position='fixed'>";
+                    + "<div data-role='header'>";
                     treasurehuntStep2ViewOutput += "<h1><a href='#home'>Aarrejahti</a></h1>";
                     treasurehuntStep2ViewOutput += "<div id='backbutton'><a href='#'' data-role='button' data-rel='back' data-icon='back' data-iconpos='notext' data-theme='a' data-inline='true'>Back</a></div>";
                     treasurehuntStep2ViewOutput += "</div>";
@@ -291,7 +304,7 @@
             $.each(campaigns.treasurehunts, function(j, treasurehunts) {
                 if ( parseInt(treasurehunts.treasurehuntStatus) == 0) {
                     treasurehuntStep3ViewOutput += "<div data-role=" + "page" + " id='" + treasurehunts.treasurehuntID + "step3' class='treasurehunt " + treasurehunts.treasurehuntID + "step3 step3'>"
-                    + "<div data-role='header' data-position='fixed'>";
+                    + "<div data-role='header'>";
                     treasurehuntStep3ViewOutput += "<h1><a href='#home'>Aarrejahti</a></h1>";
                     treasurehuntStep3ViewOutput += "<div id='backbutton'><a href='#'' data-role='button' data-rel='back' data-icon='back' data-iconpos='notext' data-theme='a' data-inline='true'>Back</a></div>";
                     treasurehuntStep3ViewOutput += "</div>";
@@ -362,7 +375,7 @@
     <!-- ** YKSITTÄISEN KAMPANJAN KÄYNNISSÄ OLEVA AARREJAHTI (alkuperäinen koodi) ** -->
     <!--
     <div data-role="page" id="campaign01treasurehunt01">
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <h1>Aarrejahti</h1>
         </div>
         <div data-role="content" class="content">
@@ -391,7 +404,7 @@
             <button id="relocate">Tarkista sijainti</button>
             
         </div>
-        <div data-role="footer" data-position="fixed">
+        <div data-role="footer">
             <div class="ui-grid-a">
                 <div class="ui-block-a">
                     <a href="#home" data-role="button" data-icon="home" data-iconpos="notext" data-theme="a" data-inline="true">Home</a>
@@ -407,7 +420,7 @@
 
     <!-- **** KÄYTTÖEHDOT **** -->
     <div data-role="page" id="termsofuse">
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <h1><a href="#home">Aarrejahti</a></h1>
             <div id="backbutton">
                 <a href="#" data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" data-theme="a" data-inline="true">Back</a>
@@ -437,7 +450,7 @@
 
     <!-- **** TIETOJA **** -->
     <div data-role="page" id="info">
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <h1><a href="#home">Aarrejahti</a></h1>
             <div id="backbutton">
                 <a href="#" data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" data-theme="a" data-inline="true">Back</a>
