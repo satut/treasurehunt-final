@@ -134,3 +134,11 @@ label, .ui-mobile label, div.ui-controlgroup-label {
     color: #ffffff !important;
     text-shadow: 1px 1px 1px #ad0066 !important;
 }
+
+h2.campaign-name {
+    text-align: left !important;
+}
+
+.campaign-date {
+    font-size: .9em !important;
+}

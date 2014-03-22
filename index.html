@@ -87,8 +87,8 @@
                 var output = "";
                 $.getJSON(jsonURL,function(json){
                     $.each(json.campaigns,function(i,campaigns){
-                        output += "<li><a href='#" + json.campaigns[i].campaignID + "'>"
-                        + json.campaigns[i].campaignName + "</a></li>";
+                        output += "<li><a href='#" + json.campaigns[i].campaignID + "'><img src='" + json.campaigns[i].campaignLogo + "'><h2 class='campaign-name'>"
+                        + json.campaigns[i].campaignName + "</h2><p class='campaign-date'>" + json.campaigns[i].campaignDate + "</p></a></li>";
                     });
                     var outputTarget = document.getElementById("campaignList");
                     outputTarget.innerHTML=output;
