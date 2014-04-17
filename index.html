@@ -131,8 +131,7 @@
                 var closedTreasurehunts = false;
                 $.each(campaigns.treasurehunts, function(j, treasurehunts) {
                     if ( parseInt(treasurehunts.treasurehuntStatus) == 1) {
-                        campaignViewOutput += "<li><a href='#" + treasurehunts.treasurehuntID + "'>"
-                                            + treasurehunts.treasurehuntName + "</a></li>";
+                        campaignViewOutput += "<li>" + treasurehunts.treasurehuntName + "</li>";
                         closedTreasurehunts = true;
                     }
                 });

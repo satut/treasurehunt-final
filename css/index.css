@@ -142,3 +142,7 @@ h2.campaign-name {
 .campaign-date {
     font-size: .9em !important;
 }
+
+li.ui-li-static {
+    font-weight: bold;
+}
