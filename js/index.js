@@ -28,6 +28,7 @@
     document.addEventListener("deviceready", onDeviceReady, false);
 
     function onDeviceReady() {
+        console.log("Testataan konsolia!");
         $( document ).delegate(".treasurehunt", "pageinit", function() {
             findLocation();  
 
@@ -43,8 +44,8 @@
     function findLocation() {
         //document.getElementById('geolocation').innerHTML = 'Etsitään sijaintia...';
 
-        // Throw an error if no update is received every 5 seconds
-        var options = {maximumAge: 0, timeout: 5000, enableHighAccuracy:true};
+        // Throw an error if no update is received every 9 seconds
+        var options = {maximumAge: 0, timeout: 9000, enableHighAccuracy:true};
         watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
     }
 
@@ -129,8 +130,8 @@
 
     // onError Callback receives a PositionError object
     function onError(error) {
-        alert('Tapahtui virhe.' + '\n' + 'Koodi: '    + error.code    + '\n' +
-              'Viesti: ' + error.message + '\n');
+        alert('Tapahtui virhe.' + '\n' + 'Virheen koodi: '    + error.code    + '\n' +
+              'Mikäli virhe toistuu, käynnistä sovellus uudelleen.');
     }
 
     // Jos käyttäjä on aarteen lähellä, näytetään notifikaatio
